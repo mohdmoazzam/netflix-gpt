@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { NETFLIX_BG } from "../utils/constants";
 import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { firebaseAuth } from "../utils/firebase";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -27,12 +34,48 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = checkValidData(formData.email, formData.password);
-    if (Object.keys(validationErrors).length > 0) {
+
+    if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
-    } else {
-      console.log("Form data:", formData);
-      setErrors({});
+      return;
     }
+
+    if (isSignInForm) {
+      const toastId = toast.loading("Loading...");
+      signInWithEmailAndPassword(
+        firebaseAuth,
+        formData.email,
+        formData.password
+      )
+        .then((userCredential) => {
+          toast.dismiss(toastId);
+          const user = userCredential.user;
+          toast.success("Successfully signedin");
+          setFormData({ email: "", fullName: "", password: "" });
+        })
+        .catch((error) => {
+          toast.dismiss(toastId);
+          const errorMessage = error.message;
+          toast.error(errorMessage);
+        });
+    } else {
+      createUserWithEmailAndPassword(
+        firebaseAuth,
+        formData.email,
+        formData.password
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          toast.success("Successfully signedup");
+          setFormData({ email: "", fullName: "", password: "" });
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          toast.error(errorMessage);
+        });
+    }
+
+    setErrors({});
   };
 
   return (
