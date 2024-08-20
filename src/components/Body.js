@@ -1,12 +1,17 @@
 import React from "react";
-import Login from "../pages/Login";
-import Browse from "../pages/Browse";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Browse from "../pages/Browse";
+import Login from "../pages/Login";
+import VpnNotice from "./VpnNotice";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
     {
       path: "/",
+      element: <VpnNotice />,
+    },
+    {
+      path: "/login",
       element: <Login />,
     },
     {
