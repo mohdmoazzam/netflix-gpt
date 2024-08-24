@@ -4,6 +4,8 @@ export const NETFLIX_BG =
 export const PROFILE_PIC =
   "https://wallpapers.com/images/high/netflix-profile-pictures-1000-x-1000-88wkdmjrorckekha.webp";
 
+export const TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
 export const API_OPTIONS = {
   method: "GET",
   headers: {
