@@ -6,10 +6,16 @@ export const PROFILE_PIC =
 
 export const TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
+export const DEFAULT_POSTER_URL =
+  "https://media.comicbook.com/files/img/default-movie.png";
+
 export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjE3MmVkMjM1ZjhkNWUxYzA0MDg0M2I5M2NhYzMxMCIsIm5iZiI6MTcyNDA2ODE2OS41NzU0NTUsInN1YiI6IjY2YzMyOWNkMjIyMmNmNmQzYWZiZmVlZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uSnxNvybCr6CJqiWFC2Hzvdv4lexvXPhxRMCQY1vzpc`,
+    Authorization: `Bearer ${process.env.REACT_APP_TMDB_API_READ_ACCESS_TOKEN}`,
   },
 };
+
+export const TMDB_SEARCH_MOVIE_URI =
+  "https://api.themoviedb.org/3/search/movie?query=movie_title";
